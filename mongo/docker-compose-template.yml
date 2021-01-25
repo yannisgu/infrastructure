@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: bitnami/mongodb:4.4
+    hostname: coollabs-mongodb
+    env_file: .env
+    environment:
+      - MONGODB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGODB_USERNAME=${MONGO_INITDB_COOLLABS_USER}
+      - MONGODB_PASSWORD=${MONGO_INITDB_COOLLABS_PASSWORD}
+      - MONGODB_DATABASE=${MONGO_INITDB_DB}
+    volumes:
+      - coollabs-mongodb-data:/bitnami/mongodb
+    networks: 
+      - ${DOCKER_NETWORK}
+      
+volumes:
+  coollabs-mongodb-data:
+    external: true
+
+networks:
+  ${DOCKER_NETWORK}:
+    driver: overlay
+    name: ${DOCKER_NETWORK}
+    external: true
